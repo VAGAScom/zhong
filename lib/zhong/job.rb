@@ -21,6 +21,7 @@ module Zhong
 
       @if = config[:if]
       @long_running_timeout = config[:long_running_timeout]
+      @delay_lock_verification_for =  config[:delay_lock_verification_for] || 0.1
       @running = false
       @first_run = true
       @last_ran = nil
@@ -51,6 +52,7 @@ module Zhong
 
           refresh_last_ran
 
+          sleep @delay_lock_verification_for
           # we need to check again, as another process might have acquired
           # the lock right before us and obviated our need to do anything
           break unless run?(time)
