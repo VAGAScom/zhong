@@ -1,3 +1,5 @@
+require 'memory_profiler'
+
 module Zhong
   class Scheduler
     extend Forwardable
@@ -63,6 +65,7 @@ module Zhong
     end
 
     def start
+      MemoryProfiler.start
       logger.info "starting at #{redis_time}"
 
       @stop = false
@@ -101,6 +104,9 @@ module Zhong
       @running = false
 
       Thread.new { logger.info "stopped" }.join
+
+      report = MemoryProfiler.stop
+      report.pretty_print(to_file: '/tmp/memory_profile.log')
     end
 
     def stop
