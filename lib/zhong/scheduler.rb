@@ -106,7 +106,7 @@ module Zhong
       Thread.new { logger.info "stopped" }.join
 
       report = MemoryProfiler.stop
-      report.pretty_print(to_file: '/tmp/memory_profile.log')
+      report.pretty_print(to_file: "/tmp/memory_profile_#{Time.now.to_i}.log")
     end
 
     def stop
