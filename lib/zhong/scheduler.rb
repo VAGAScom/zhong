@@ -165,7 +165,10 @@ module Zhong
     end
 
     def sleep_until_next_second
+      log_now = rand(1..20) == 10
+      logger.info "Threads Before GC: #{Thread.list.size}" if log_now
       GC.start
+      logger.info "Threads After GC: #{Thread.list.size}" if log_now
       sleep(1.0 - Time.now.subsec + 0.0001)
     end
   end
